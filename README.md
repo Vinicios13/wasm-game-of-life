@@ -1,4 +1,4 @@
-this repo was made fallowing the <a href="https://rustwasm.github.io/docs/book/">this</a> guide
+this repo was made fallowing <a href="https://rustwasm.github.io/docs/book/">this</a> guide
 
 ## How to run
 
@@ -11,6 +11,8 @@ wasm-pack build
 ```
 npm install && npm start
 ```
+
+Access <a href="http://localhost:8080">localhost:8080<a>
 
 ## prerequisites
 <a href="https://www.rust-lang.org/tools/install"> rustup, rustc, and cargo </a>
