@@ -1,4 +1,6 @@
 mod utils;
+extern crate js_sys;
+
 
 use std::fmt;
 use wasm_bindgen::prelude::*;
@@ -22,6 +24,15 @@ pub struct Universe {
     width: u32,
     height: u32,
     cells: Vec<Cell>,
+}
+
+impl Cell {
+    fn toggle(&mut self) {
+        *self = match *self {
+            Cell::Dead => Cell::Alive,
+            Cell::Alive => Cell::Dead,
+        };
+    }
 }
 
 #[wasm_bindgen]
@@ -80,13 +91,17 @@ impl Universe {
         count
     }
 
-    pub fn new() -> Universe {
+    pub fn new(empty: bool) -> Universe {
         let width = 64;
         let height = 64;
 
         let cells = (0..width * height)
-            .map(|i| {
-                if i % 2 == 0 || i % 7 == 0 {
+            .map(|_| {
+                if empty {
+                    return Cell::Dead;
+                };
+
+                if js_sys::Math::random() < 0.5 {
                     Cell::Alive
                 } else {
                     Cell::Dead
@@ -115,6 +130,11 @@ impl Universe {
 
     pub fn cells(&self) -> *const Cell {
         self.cells.as_ptr()
+    }
+
+    pub fn toggle_cell(&mut self, row: u32, column: u32) {
+        let idx = self.get_index(row, column);
+        self.cells[idx].toggle();
     }
 }
 
